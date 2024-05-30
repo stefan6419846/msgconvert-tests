@@ -26,6 +26,7 @@ jobs:
       run: |
         cd email-outlook-message-perl-*
         perl Build.PL
+        ./Build installdeps
         ./Build
     - name: test
       run: |
