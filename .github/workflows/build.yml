@@ -1,0 +1,33 @@
+name: Build package
+
+on:
+- push
+- workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+    - uses: actions/checkout@v4
+    - name: install dependencies
+      run:
+        sudo apt-get install perl
+    - name: install Build
+      run:
+        sudo cpan -i Build
+    - name: download package
+      run:
+        wget https://github.com/mvz/email-outlook-message-perl/archive/refs/tags/v0.921.tar.gz
+    - name: unpack package
+      run:
+        tar -xvf *.tar.gz
+    - name: build
+      run: |
+        cd email-outlook-message-perl-*
+        perl Build.PL
+        ./Build
+    - name: test
+      run: |
+        cd email-outlook-message-perl-*
+        ./Build test
